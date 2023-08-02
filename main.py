@@ -20,7 +20,6 @@ screen.onkey(snake.left, "Left")
 screen.onkey(snake.right, "Right")
 score=0
 game_is_on = True
-wall=[280,-280]
 while game_is_on:
     screen.update()
     time.sleep(0.1)
@@ -31,13 +30,17 @@ while game_is_on:
         snake.extend_snake()
         game_score.increase_score()
 
-    if snake.head.xcor() in wall or snake.head.ycor() in wall:
-        game_score.game_over()
-        game_is_on=False
+    if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor()< -280:
+        game_score.reset()
+        snake.reset()
+
 
     for segment in snake.segments[1:]:
-        if snake.head.distance(segment)<10:
-            game_is_on=False
-            scoreboard.game_over()
+        if segment==snake.head:
+            pass
+        elif snake.head.distance(segment)<10:
+            game_score.reset()
+            snake.reset()
+
 
 screen.exitonclick()
